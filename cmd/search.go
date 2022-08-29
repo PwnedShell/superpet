@@ -16,7 +16,7 @@ var delimiter string
 var searchCmd = &cobra.Command{
 	Use:   "search",
 	Short: "Search snippets",
-	Long:  `Search snippets interactively (default filtering tool: peco)`,
+	Long:  `Search snippets interactively (default filtering tool: fzf)`,
 	RunE:  search,
 }
 
@@ -27,6 +27,10 @@ func search(cmd *cobra.Command, args []string) (err error) {
 	if flag.Query != "" {
 		options = append(options, fmt.Sprintf("--query %s", shellescape.Quote(flag.Query)))
 	}
+	if config.Conf.General.SelectCmd == "fzf" {
+		options = append(options, "--ansi")
+	}
+	
 	commands, err := filter(options, flag.FilterTag)
 	if err != nil {
 		return err
@@ -41,7 +45,7 @@ func search(cmd *cobra.Command, args []string) (err error) {
 
 func init() {
 	RootCmd.AddCommand(searchCmd)
-	searchCmd.Flags().BoolVarP(&config.Flag.Color, "color", "", false,
+	searchCmd.Flags().BoolVarP(&config.Flag.Color, "color", "", true,
 		`Enable colorized output (only fzf)`)
 	searchCmd.Flags().StringVarP(&config.Flag.Query, "query", "q", "",
 		`Initial value for query`)

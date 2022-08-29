@@ -11,6 +11,7 @@ import (
 
 	"github.com/chzyer/readline"
 	"github.com/fatih/color"
+	"github.com/logrusorgru/aurora"
 	"github.com/ramiawar/superpet/config"
 	"github.com/ramiawar/superpet/envvar"
 	"github.com/ramiawar/superpet/snippet"
@@ -70,7 +71,7 @@ func scan(message string) (string, error) {
 		}
 		return line, nil
 	}
-	return "", errors.New("canceled")
+	return "", errors.New("Canceled")
 }
 
 func new(cmd *cobra.Command, args []string) (err error) {
@@ -85,21 +86,21 @@ func new(cmd *cobra.Command, args []string) (err error) {
 
 	if len(args) > 0 {
 		command = strings.Join(args, " ")
-		fmt.Fprintf(color.Output, "%s %s\n", color.YellowString("Command>"), command)
+		fmt.Fprintf(color.Output, "%s %s\n", aurora.Gray(12-1, "Command:"), command)
 	} else {
-		command, err = scan(color.YellowString("Command> "))
+		command, err = scan(fmt.Sprint(aurora.Gray(12-1, "Command: ")))
 		if err != nil {
 			return err
 		}
 	}
-	description, err = scan(color.GreenString("Description> "))
+	description, err = scan(fmt.Sprint(aurora.Green("Description: ")))
 	if err != nil {
 		return err
 	}
 
 	if config.Flag.Tag {
 		var t string
-		if t, err = scan(color.CyanString("Tag> ")); err != nil {
+		if t, err = scan(fmt.Sprint(aurora.Yellow("Tag: "))); err != nil {
 			return err
 		}
 		tags = strings.Fields(t)
@@ -139,13 +140,13 @@ func newenv(cmd *cobra.Command, args []string) (err error) {
 		return err
 	}
 
-	description, err = scan(color.GreenString("Description> "))
+	description, err = scan(fmt.Sprint(aurora.Green("Description: ")))
 	if err != nil {
 		return err
 	}
 
 	fmt.Println("\n(variables format (space delimited): SDK_KEY=123 HOST=123 ENV=abc PORT=999)")
-	v, err := scan(color.YellowString("Variables> "))
+	v, err := scan(fmt.Sprint(aurora.Yellow("Variables: ")))
 	if err != nil {
 		return err
 	}
@@ -153,7 +154,7 @@ func newenv(cmd *cobra.Command, args []string) (err error) {
 
 	if config.Flag.Tag {
 		var t string
-		if t, err = scan(color.CyanString("Tag> ")); err != nil {
+		if t, err = scan(fmt.Sprint(aurora.Cyan("Tag: "))); err != nil {
 			return err
 		}
 		tags = strings.Fields(t)
@@ -185,8 +186,8 @@ func newenv(cmd *cobra.Command, args []string) (err error) {
 
 func init() {
 	RootCmd.AddCommand(newCmd)
-	newCmd.Flags().BoolVarP(&config.Flag.Tag, "tag", "t", false,
+	newCmd.Flags().BoolVarP(&config.Flag.Tag, "tag", "t", true,
 		`Display tag prompt (delimiter: space)`)
 	RootCmd.AddCommand(newEnvCmd)
-	newEnvCmd.Flags().BoolVarP(&config.Flag.Tag, "tag", "t", false, `Display tag prompt (delimiter: space)`)
+	newEnvCmd.Flags().BoolVarP(&config.Flag.Tag, "tag", "t", true, `Display tag prompt (delimiter: space)`)
 }

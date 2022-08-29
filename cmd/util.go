@@ -11,7 +11,7 @@ import (
 
 	"syscall"
 
-	"github.com/fatih/color"
+	"github.com/logrusorgru/aurora"
 	"github.com/ramiawar/superpet/config"
 	"github.com/ramiawar/superpet/dialog"
 	"github.com/ramiawar/superpet/envvar"
@@ -71,7 +71,7 @@ func filter(options []string, tag string) (commands []string, err error) {
 		if strings.ContainsAny(command, "\n") {
 			command = strings.Replace(command, "\n", "\\n", -1)
 		}
-		t := fmt.Sprintf("[%s]: %s", s.Description, command)
+		t := fmt.Sprintf("%s %s: %s", "⚈", s.Description, command)
 
 		tags := ""
 		for _, tag := range s.Tag {
@@ -81,8 +81,8 @@ func filter(options []string, tag string) (commands []string, err error) {
 
 		snippetTexts[t] = s
 		if config.Flag.Color {
-			t = fmt.Sprintf("[%s]: %s%s",
-				color.RedString(s.Description), command, color.BlueString(tags))
+			t = fmt.Sprintf("%s %s: %s%s", aurora.Green("⚈"),
+				s.Description, aurora.Gray(12-1, command), aurora.Yellow(tags))
 		}
 		text += t + "\n"
 	}
@@ -135,7 +135,7 @@ func filterEnv(options []string, tag string) (envs []string, err error) {
 	for _, s := range envvars.EnvVars {
 		variables := s.GetVariables()
 
-		t := fmt.Sprintf("[%s]: %s", s.Description, strings.Join(variables, ", "))
+		t := fmt.Sprintf("⚈ %s: %s", s.Description, strings.Join(variables, ", "))
 
 		tags := ""
 		for _, tag := range s.Tag {
@@ -145,8 +145,8 @@ func filterEnv(options []string, tag string) (envs []string, err error) {
 
 		envvarTexts[t] = s
 		if config.Flag.Color {
-			t = fmt.Sprintf("[%s]: %s%s",
-				color.RedString(s.Description), strings.Join(variables, ", "), color.BlueString(tags))
+				t = fmt.Sprintf("%s %s: %s%s", aurora.Green("⚈"),
+					s.Description, aurora.Gray(12-1, strings.Join(variables, ", ")), aurora.Yellow(tags))
 		}
 		text += t + "\n"
 	}

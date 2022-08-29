@@ -5,6 +5,7 @@ import (
 	"strings"
 
 	"github.com/fatih/color"
+	"github.com/logrusorgru/aurora"
 	runewidth "github.com/mattn/go-runewidth"
 	"github.com/ramiawar/superpet/config"
 	"github.com/ramiawar/superpet/envvar"
@@ -45,36 +46,35 @@ func list(cmd *cobra.Command, args []string) error {
 	for _, snippet := range snippets.Snippets {
 		if config.Flag.OneLine {
 			description := runewidth.FillRight(runewidth.Truncate(snippet.Description, col, "..."), col)
-			command := runewidth.Truncate(snippet.Command, 100-4-col, "...")
+			command := runewidth.Truncate(snippet.Command, 140-4-col, "...")
 			// make sure multiline command printed as oneline
 			command = strings.Replace(command, "\n", "\\n", -1)
-			fmt.Fprintf(color.Output, "%s : %s\n",
-				color.GreenString(description), color.YellowString(command))
+			fmt.Fprintf(color.Output, "%s %s %s\n", aurora.Green("⚈"), description, aurora.Gray(12-1, command))
 		} else {
 			fmt.Fprintf(color.Output, "%12s %s\n",
-				color.GreenString("Description:"), snippet.Description)
+			aurora.Green("Description"), snippet.Description)
 			if strings.Contains(snippet.Command, "\n") {
 				lines := strings.Split(snippet.Command, "\n")
 				firstLine, restLines := lines[0], lines[1:]
 				fmt.Fprintf(color.Output, "%12s %s\n",
-					color.YellowString("    Command:"), firstLine)
+					aurora.Yellow("    Command:"), firstLine)
 				for _, line := range restLines {
 					fmt.Fprintf(color.Output, "%12s %s\n",
 						" ", line)
 				}
 			} else {
 				fmt.Fprintf(color.Output, "%12s %s\n",
-					color.YellowString("    Command:"), snippet.Command)
+					aurora.Yellow("    Command:"), snippet.Command)
 			}
 			if snippet.Tag != nil {
 				tag := strings.Join(snippet.Tag, " ")
 				fmt.Fprintf(color.Output, "%12s %s\n",
-					color.CyanString("        Tag:"), tag)
+					aurora.Cyan("        Tag:"), tag)
 			}
 			if snippet.Output != "" {
 				output := strings.Replace(snippet.Output, "\n", "\n             ", -1)
 				fmt.Fprintf(color.Output, "%12s %s\n",
-					color.RedString("     Output:"), output)
+					aurora.Red("     Output:"), output)
 			}
 			fmt.Println(strings.Repeat("-", 30))
 		}
@@ -107,18 +107,17 @@ func listenv(cmd *cobra.Command, args []string) error {
 			vars = runewidth.Truncate(vars, 100-4-col, "...")
 			// make sure multiline vars printed as oneline
 			vars = strings.Replace(vars, "\n", "\\n", -1)
-			fmt.Fprintf(color.Output, "%s : %s\n",
-				color.GreenString(description), color.YellowString(vars))
+			fmt.Fprintf(color.Output, "%s %s: %s\n",
+			aurora.Green("⚈"), description, aurora.Gray(12-1, vars))
 		} else {
 			fmt.Fprintf(color.Output, "%12s %s\n",
-				color.GreenString("Description:"), envvar.Description)
+			aurora.Green("Description:"), envvar.Description)
 			fmt.Fprintf(color.Output, "%12s %s\n",
-				color.YellowString("    Variables:"), vars)
-
+				aurora.Yellow("    Variables:"), vars)
 			if envvar.Tag != nil {
 				tag := strings.Join(envvar.Tag, " ")
 				fmt.Fprintf(color.Output, "%12s %s\n",
-					color.CyanString("        Tag:"), tag)
+				aurora.Cyan("        Tag:"), tag)
 			}
 			fmt.Println(strings.Repeat("-", 30))
 		}
@@ -129,6 +128,6 @@ func listenv(cmd *cobra.Command, args []string) error {
 func init() {
 	RootCmd.AddCommand(listCmd)
 	RootCmd.AddCommand(listenvCmd)
-	listCmd.Flags().BoolVarP(&config.Flag.OneLine, "oneline", "", false,
+	listCmd.Flags().BoolVarP(&config.Flag.OneLine, "oneline", "", true,
 		`Display snippets in one line`)
 }

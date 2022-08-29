@@ -25,6 +25,9 @@ func activate(cmd *cobra.Command, args []string) (err error) {
 	if flag.Query != "" {
 		options = append(options, fmt.Sprintf("--query %s", shellescape.Quote(flag.Query)))
 	}
+	if config.Conf.General.SelectCmd == "fzf" {
+		options = append(options, "--ansi")
+	}
 
 	envs, err := filterEnv(options, flag.FilterTag)
 	if err != nil {
