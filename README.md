@@ -42,37 +42,40 @@ You can also password protect environments so you don't activate that production
 
 # TOC
 
+- [Superpet: CLI Snippet and Environment Manager](#superpet-cli-snippet-and-environment-manager)
+- [Abstract](#abstract)
+- [TOC](#toc)
 - [Main features](#main-features)
 - [Examples](#examples)
-    - [Register the previous command easily](#register-the-previous-command-easily)
-        - [bash](#bash-prev-function)
-        - [zsh](#zsh-prev-function)
-        - [fish](#fish)
-    - [Select snippets at the current line (like C-r)](#select-snippets-at-the-current-line-like-c-r)
-        - [bash](#bash)
-        - [zsh](#zsh)
-        - [fish](#fish-1)
-    - [Copy snippets to clipboard](#copy-snippets-to-clipboard)
+  - [Register the previous command easily](#register-the-previous-command-easily)
+    - [bash prev function](#bash-prev-function)
+    - [zsh prev function](#zsh-prev-function)
+    - [fish](#fish)
+  - [Select snippets at the current line (like C-r)](#select-snippets-at-the-current-line-like-c-r)
+    - [bash](#bash)
+    - [zsh](#zsh)
+    - [fish](#fish-1)
+  - [Copy snippets to clipboard](#copy-snippets-to-clipboard)
 - [Features](#features)
-    - [Edit snippets and environments](#edit-snippets)
-    - [Sync snippets and environments](#sync-snippets)
+  - [Edit snippets](#edit-snippets)
+  - [Sync snippets](#sync-snippets)
 - [Hands-on Tutorial](#hands-on-tutorial)
 - [Usage](#usage)
 - [Snippet](#snippet)
 - [Configuration](#configuration)
-    - [Selector option](#selector-option)
-    - [Tag](#tag)
-    - [Sync](#sync)
-    - [Auto Sync](#auto-sync)
+  - [Selector option](#selector-option)
+  - [Tag](#tag)
+  - [Activate](#activate)
+  - [Sync](#sync)
+    - [Gist](#gist)
+    - [GitLab Snippets](#gitlab-snippets)
+  - [Auto Sync](#auto-sync)
 - [Installation](#installation)
-    - [Binary](#binary)
-    - [Mac OS X / Homebrew](#mac-os-x--homebrew)
-    - [RedHat, CentOS](#redhat-centos)
-    - [Debian, Ubuntu](#debian-ubuntu)
-    - [Archlinux](#archlinux)
-    - [Build](#build)
-- [Migration](#migration)
+  - [MacOS / Homebrew](#macos--homebrew)
+  - [Binary](#binary)
+  - [Build](#build)
 - [Contribute](#contribute)
+- [License](#license)
 
 # Main features
 `superpet` has the following features.
@@ -194,7 +197,6 @@ Available Commands:
 
 Flags:
       --config string   config file (default is $HOME/.config/pet/config.toml)
-      --debug           debug mode
 
 Use "superpet [command] --help" for more information about a command.
 ```

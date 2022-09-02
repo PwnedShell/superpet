@@ -18,7 +18,6 @@ _pet () {
     _arguments \
         '(--help)--help[show this help message]' \
         '(--config)--config=[config file (default is $HOME/.config/pet/config.toml)]' \
-        '(--debug)--debug[debug mode]' \
         '*:: :->subcmds' \
         && return 0
 

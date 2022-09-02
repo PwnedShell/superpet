@@ -14,10 +14,11 @@ var delimiter string
 
 // searchCmd represents the search command
 var searchCmd = &cobra.Command{
-	Use:   "search",
-	Short: "Search snippets",
-	Long:  `Search snippets interactively (default filtering tool: fzf)`,
-	RunE:  search,
+	Use:     "search",
+	Aliases: []string{"ls"},
+	Short:   "Search snippets",
+	Long:    `Search snippets interactively (default filtering tool: fzf)`,
+	RunE:    search,
 }
 
 func search(cmd *cobra.Command, args []string) (err error) {
@@ -31,7 +32,7 @@ func search(cmd *cobra.Command, args []string) (err error) {
 		options = append(options, "--ansi")
 		options = append(options, "--cycle")
 	}
-	
+
 	commands, err := filter(options, flag.FilterTag)
 	if err != nil {
 		return err

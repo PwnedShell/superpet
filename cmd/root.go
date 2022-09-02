@@ -56,7 +56,6 @@ func init() {
 	RootCmd.AddCommand(versionCmd)
 
 	RootCmd.PersistentFlags().StringVar(&configFile, "config", "", "config file (default is $HOME/.config/pet/config.toml)")
-	RootCmd.PersistentFlags().BoolVarP(&config.Flag.Debug, "debug", "", false, "debug mode")
 }
 
 var versionCmd = &cobra.Command{
