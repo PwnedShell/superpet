@@ -28,6 +28,7 @@ func execute(cmd *cobra.Command, args []string) (err error) {
 	}
 	if config.Conf.General.SelectCmd == "fzf" {
 		options = append(options, "--ansi")
+		options = append(options, "--cycle")
 	}
 
 	commands, err := filter(options, flag.FilterTag)
